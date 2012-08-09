@@ -9,7 +9,10 @@ require 'uri'
 module Fredit
   extend self
 
+  # customize the fredit links
   LINK_CSS = "margin:0;margin-top:-1em;padding:1px;font-size:10px;background-color:#a3f66c;border:1px solid #666;"
+  # customize the default github email address: "#{name} <#{Fredit::FREDIT_EMAIL}>"
+  FREDIT_EMAIL = "name@example.com"
 
   def rel_path(path)
     path.sub(Rails.root.to_s + '/', '')
@@ -31,7 +34,7 @@ module Fredit
 
   def editables
     prefix = File.directory?(Rails.root + 'app/assets') ? 'app/assets' : 'public'
-    css = entries(prefix + '/stylesheets/*') 
+    css = entries(prefix + '/stylesheets/*')
     js = entries(prefix + '/javascripts/*')
     views = entries('app/views/**/*.html.*')
     {:css => css, :views => views, :javascript => js}
@@ -53,7 +56,7 @@ module Fredit
 
   def template_editable?(template)
     template.identifier.index(Rails.root.to_s) == 0 &&
-      template.formats && 
+      template.formats &&
       template.formats.include?(:html)
   end
 
@@ -61,3 +64,4 @@ module Fredit
 end
 
 require 'fredit/engine'
+

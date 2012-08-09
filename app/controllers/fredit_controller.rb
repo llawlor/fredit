@@ -15,7 +15,7 @@ class FreditController < ::ApplicationController
     @path ||= secure_path(params[:file] || Fredit.editables[:views].first)
     load_git_log
     @source = File.read(Rails.root + @path)
-  rescue 
+  rescue
     # to force the backtrace out into the rails log
     puts $!.backtrace
     raise
@@ -31,7 +31,7 @@ class FreditController < ::ApplicationController
 
     session[:commit_author] = (params[:commit_author] || '')
     # cleanup any shell injection attempt characters
-    author = session[:commit_author].gsub(/[^\w@<>. ]/, '') 
+    author = session[:commit_author].gsub(/[^\w@<>. ]/, '')
 
     if session[:commit_author].blank?
       flash.now[:notice] = "Edited By must not be blank"
@@ -58,7 +58,7 @@ class FreditController < ::ApplicationController
     end
     redirect_to fredit_path(:file => @path)
   end
-  
+
   def create
     @path = secure_path params[:new_file]
     FileUtils::mkdir_p File.dirname(@path)
@@ -69,7 +69,7 @@ class FreditController < ::ApplicationController
 
   def upload
     @path = secure_path params[:file_path]
-    upload = params[:upload_file]  
+    upload = params[:upload_file]
     if !upload.respond_to?(:original_filename)
       flash[:notice] = "You need to choose a file to upload"
       redirect_to fredit_path(file: @path)
@@ -82,7 +82,7 @@ class FreditController < ::ApplicationController
     File.open(upload_path, 'wb') {|f| f.write(upload.read)}
     flash[:notice] = "File successfully uploaded to #{upload_path}"
     system %Q|git add #{upload_path}|
-    author = session[:commit_author] = (params[:commit_author] || '').gsub(/[^\w@<>. ]/, '') 
+    author = session[:commit_author] = (params[:commit_author] || '').gsub(/[^\w@<>. ]/, '')
     if author.blank?
       flash[:notice] = "Uploaded By must not be blank"
       redirect_to :back
@@ -124,3 +124,4 @@ private
   end
 
 end
+
