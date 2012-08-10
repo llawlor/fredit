@@ -12,7 +12,7 @@ module Fredit
   # customize the fredit links
   LINK_CSS = "margin:0;margin-top:-1em;padding:1px;font-size:10px;background-color:#a3f66c;border:1px solid #666;"
   # customize the default github email address: "#{name} <#{Fredit::FREDIT_EMAIL}>"
-  FREDIT_EMAIL = "name@example.com"
+  FREDIT_EMAIL = "<name@example.com>"
 
   def rel_path(path)
     path.sub(Rails.root.to_s + '/', '')

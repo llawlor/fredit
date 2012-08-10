@@ -30,8 +30,15 @@ class FreditController < ::ApplicationController
     edit_msg_file.close
 
     session[:commit_author] = (params[:commit_author] || '')
+
     # cleanup any shell injection attempt characters
     author = session[:commit_author].gsub(/[^\w@<>. ]/, '')
+
+    # fix a common format error that causes git to reject a commit. Also prevents next line from adding default email due to format error
+    author.sub!("<", " <") if author.match(/\w<\w*@\w*\.\w*>/)
+
+    # use default email if one is not supplied by user
+    author = author + ' ' + Fredit::FREDIT_EMAIL unless author.match(/\s<\w*@\w*\.\w*>/)
 
     if session[:commit_author].blank?
       flash.now[:notice] = "Edited By must not be blank"
