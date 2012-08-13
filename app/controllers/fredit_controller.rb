@@ -38,7 +38,7 @@ class FreditController < ::ApplicationController
     author.sub!("<", " <") if author.match(/\w<\w*@\w*\.\w*>/)
 
     # use default email if one is not supplied by user
-    author = author + ' ' + Fredit::FREDIT_EMAIL unless author.match(/\s<\w*@\w*\.\w*>/)
+    author += " <#{Fredit::FREDIT_EMAIL}>" unless author.match(/\s<\w*@\w*\.\w*>/)
 
     if session[:commit_author].blank?
       flash.now[:notice] = "Edited By must not be blank"
