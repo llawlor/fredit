@@ -51,7 +51,7 @@ module Fredit
 
   def fredit_link(template)
     source_file = Fredit.rel_path template.identifier
-    edit_link = "<div style='color:red'>#{Fredit.link(source_file)}</div>".html_safe
+    edit_link = "<div class='fredit_div' style='color:red'>#{Fredit.link(source_file)}</div>".html_safe
   end
 
   def template_editable?(template)
